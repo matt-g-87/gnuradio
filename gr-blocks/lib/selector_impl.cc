@@ -172,7 +172,12 @@ int selector_impl::general_work(int noutput_items,
         produce(d_output_index, noutput_items);
     }
 
-    consume_each(noutput_items);
+    for (unsigned i = 0; i < d_num_inputs; i++) {
+        if (i == d_input_index)
+            consume(i,noutput_items);
+        else
+            consume(i,ninput_items[i]);
+    }
     return WORK_CALLED_PRODUCE;
 }
 
